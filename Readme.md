@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Григорий Цуриков](https://up.htmlacademy.ru/javascript/21/user/1087975).
-* Наставник: `Неизвестно`.
+* Наставник: `Максим Деев`.
 
 ---
 

@@ -20,7 +20,7 @@ function createOffers(count = 8) {
 
   for (let i = 1; i <= count; i++) {
 
-    locationX = getRandomInt(0, map.clientWidth);
+    locationX = getRandomInt(pinWidth / 2, map.clientWidth - pinWidth / 2);
     locationY = getRandomInt(130, 630);
 
     offers[i - 1] = {
@@ -51,11 +51,13 @@ function createOffers(count = 8) {
 }
 
 const mapPinTemplate = document.querySelector("#pin");
+const pinWidth = 50;
+const pinHeight = 70;
 
 function renderPin(offer) {
   let mapPin = mapPinTemplate.cloneNode(true).content;
 
-  mapPin.querySelector(".map__pin").style = "left: " + offer.location.x + "px; top: " + offer.location.y + "px;";
+  mapPin.querySelector(".map__pin").style = "left: " + (offer.location.x - pinWidth / 2) + "px; top: " + (offer.location.y - pinHeight) + "px;";
   mapPin.querySelector("img").src = offer.author.avatar;
   mapPin.querySelector("img").alt = offer.offer.title;
   return mapPin;

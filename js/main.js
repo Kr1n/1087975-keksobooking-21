@@ -80,18 +80,16 @@ function createPinCard(offer) {
   let pinCard = pinCardTemplate.cloneNode(true).content;
 
   let type;
-
-  switch (offer.offer.type){
-    case "flat": type = "Квартира";
-    case "bungalow": type = "Бунгало";
-    case "house": type = "Дом";
-    case "palace": type = "Дворец";
-    default: type = "Квартира";
+  switch (offer.offer.type) {
+    case "flat": type = "Квартира"; break;
+    case "bungalow": type = "Бунгало"; break;
+    case "house": type = "Дом"; break;
+    case "palace": type = "Дворец"; break;
+    default: type = "Квартира"; break;
   }
 
   let elementPhoto;
   let fragmentPhotos = document.createDocumentFragment();
-
   for (let i = 0; i < offer.offer.photos.length; i++) {
     elementPhoto = pinCard.querySelector(".popup__photos img").cloneNode(true);
     elementPhoto.src = offer.offer.photos[i];
@@ -100,7 +98,7 @@ function createPinCard(offer) {
 
   let featuresList = "";
   for (let i = 0; i < offer.offer.features.length; i++) {
-    featuresList += "<li class='popup__feature popup__feature--"+ offer.offer.features[i] +"'></li>"
+    featuresList += "<li class='popup__feature popup__feature--" + offer.offer.features[i] + "'></li>";
   }
 
   pinCard.querySelector(".popup__title").textContent = offer.offer.title;
@@ -122,9 +120,7 @@ function createPinCard(offer) {
 
 function renderPinCard(offers) {
   let element = document.createElement("div");
-
   element.appendChild(createPinCard(offers[0]));
-
   map.querySelector(".map__filters-container").insertAdjacentHTML("beforebegin", element.innerHTML);
 }
 

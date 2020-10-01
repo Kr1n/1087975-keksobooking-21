@@ -4,6 +4,12 @@ function getRandomInt(min, max) {
   return Math.floor(min + Math.random() * Math.floor(max - min));
 }
 
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
+
 const pinCardTemplate = document.querySelector("#card");
 const mapPinTemplate = document.querySelector("#pin");
 const map = document.querySelector(".map");
@@ -88,17 +94,21 @@ function createPinCard(offer) {
     default: type = "Квартира"; break;
   }
 
-  let elementPhoto;
-  let fragmentPhotos = document.createDocumentFragment();
+  let photosList = document.createDocumentFragment();
+  let photoItem;
   for (let i = 0; i < offer.offer.photos.length; i++) {
-    elementPhoto = pinCard.querySelector(".popup__photos img").cloneNode(true);
-    elementPhoto.src = offer.offer.photos[i];
-    fragmentPhotos.appendChild(elementPhoto);
+    photoItem = pinCard.querySelector(".popup__photos img").cloneNode(true);
+    photoItem.src = offer.offer.photos[i];
+    photosList.appendChild(photoItem);
   }
 
-  let featuresList = "";
+  let featuresList = document.createDocumentFragment();
+  let featuresItem;
   for (let i = 0; i < offer.offer.features.length; i++) {
-    featuresList += "<li class='popup__feature popup__feature--" + offer.offer.features[i] + "'></li>";
+    featuresItem  = document.createElement("li");
+    featuresItem.classList.add("popup__feature");
+    featuresItem.classList.add("popup__feature--" + offer.offer.features[i]);
+    featuresList.appendChild(featuresItem);
   }
 
   pinCard.querySelector(".popup__title").textContent = offer.offer.title;
@@ -110,10 +120,13 @@ function createPinCard(offer) {
   pinCard.querySelector(".popup__description").textContent = offer.offer.description;
   pinCard.querySelector("img").src = offer.author.avatar;
 
-  pinCard.querySelector(".popup__photos").innerHTML = "";
-  pinCard.querySelector(".popup__photos").appendChild(fragmentPhotos);
+  let photos = pinCard.querySelector(".popup__photos");
+  removeAllChildNodes(photos);
+  photos.appendChild(photosList);
 
-  pinCard.querySelector(".popup__features").innerHTML = featuresList;
+  let features = pinCard.querySelector(".popup__features");
+  removeAllChildNodes(features);
+  features.appendChild(featuresList);
 
   return pinCard;
 }

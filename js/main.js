@@ -16,9 +16,10 @@ const map = document.querySelector(".map");
 const pinWidth = 50;
 const pinHeight = 70;
 
-const offerArray = createOffersArray(8);
+const mainPinWidth = 62;
+const mainPinHeight = 84;
 
-map.classList.remove("map--faded");
+const offerArray = createOffersArray(8);
 
 function createOffersArray(count = 8) {
 
@@ -105,7 +106,7 @@ function createPinCard(offer) {
   let featuresList = document.createDocumentFragment();
   let featuresItem;
   for (let i = 0; i < offer.offer.features.length; i++) {
-    featuresItem  = document.createElement("li");
+    featuresItem = document.createElement("li");
     featuresItem.classList.add("popup__feature");
     featuresItem.classList.add("popup__feature--" + offer.offer.features[i]);
     featuresList.appendChild(featuresItem);
@@ -137,5 +138,41 @@ function renderPinCard(offers) {
   map.querySelector(".map__filters-container").insertAdjacentHTML("beforebegin", element.innerHTML);
 }
 
-renderMapPins(offerArray);
-renderPinCard(offerArray);
+
+// State
+let mainPin = document.querySelector(".map__pin--main");
+let formFieldsets = document.querySelectorAll(".ad-form fieldset");
+let mapFilters = document.querySelectorAll(".map__filters > *");
+let addressField = document.querySelector("#address");
+
+function setActiveState() {
+  formFieldsets.forEach(item => item.disabled = false);
+  mapFilters.forEach(item => item.disabled = false);
+  map.classList.remove("map--faded");
+  renderMapPins(offerArray);
+}
+
+function setNonActiveState() {
+  formFieldsets.forEach(item => item.disabled = true);
+  mapFilters.forEach(item => item.disabled = true);
+}
+
+function setAddressValue(x, y) {
+  addressField.value = Math.floor(x) + ", " + Math.floor(y);
+}
+
+setNonActiveState(formFieldsets);
+setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
+
+mainPin.addEventListener("mousedown", function (evt) {
+  if (typeof evt === "object" && evt.button === 0) {
+    setActiveState();
+  }
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    setActiveState();
+  }
+});
+//  renderPinCard(offerArray);

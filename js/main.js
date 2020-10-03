@@ -10,6 +10,8 @@ function removeAllChildNodes(parent) {
   }
 }
 
+//===================================================
+// Map Pins
 const pinCardTemplate = document.querySelector("#card");
 const mapPinTemplate = document.querySelector("#pin");
 const map = document.querySelector(".map");
@@ -81,8 +83,16 @@ function renderMapPins(offers) {
     fragment.appendChild(createMapPin(offers[i]));
   }
   pinList.appendChild(fragment);
+
+  pinList = map.querySelectorAll(".map__pin");
+
+  for (let i = 1; i < pinList.length; i++) {
+    pinList[i].addEventListener("click", () => renderPinCard(offerArray[i - 1]));
+  }
 }
 
+//===================================================
+// Pin Cards
 function createPinCard(offer) {
   let pinCard = pinCardTemplate.cloneNode(true).content;
 
@@ -132,13 +142,39 @@ function createPinCard(offer) {
   return pinCard;
 }
 
-function renderPinCard(offers) {
+function renderPinCard(offer) {
+  let pinCards = map.querySelectorAll(".map__card");
   let element = document.createElement("div");
-  element.appendChild(createPinCard(offers[0]));
+
+  pinCards.forEach(item => item.remove());
+  element.appendChild(createPinCard(offer));
+
   map.querySelector(".map__filters-container").insertAdjacentHTML("beforebegin", element.innerHTML);
+
+  map.querySelector(".popup__close").addEventListener("click", function (evt) {
+    closePinCard(evt.target);
+  });
+  map.querySelector(".popup__close").addEventListener("keydown", function (evt) {
+    if (evt.key === "Enter") {
+      closePinCard();
+    }
+  });
+  document.addEventListener("keydown", onPinCardEscPress);
 }
 
+function closePinCard() {
+  map.querySelector(".popup").classList.add("hidden");
+  document.removeEventListener("keydown", onPinCardEscPress);
+}
 
+function onPinCardEscPress(evt) {
+  if (evt.key === "Escape") {
+    evt.preventDefault();
+    closePinCard();
+  }
+};
+
+//===================================================
 // State
 let mainPin = document.querySelector(".map__pin--main");
 let form = document.querySelector(".ad-form");
@@ -152,6 +188,8 @@ function setActiveState() {
   form.classList.remove("ad-form--disabled");
   map.classList.remove("map--faded");
   renderMapPins(offerArray);
+  mainPin.removeEventListener("mousedown", onMainPinMousePress);
+  mainPin.removeEventListener("keydown", onMainPinEnterPress);
 }
 
 function setNonActiveState() {
@@ -159,38 +197,37 @@ function setNonActiveState() {
   mapFilters.forEach(item => item.disabled = true);
   form.classList.add("ad-form--disabled");
   map.classList.add("map--faded");
+  mainPin.addEventListener("mousedown", onMainPinMousePress);
+  mainPin.addEventListener("keydown", onMainPinMousePress);
 }
 
 function setAddressValue(x, y) {
   addressField.value = Math.floor(x) + ", " + Math.floor(y);
 }
 
-setNonActiveState(formFieldsets);
-setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
-
-mainPin.addEventListener("mousedown", function (evt) {
-  if (typeof evt === "object" && evt.button === 0) {
-    setActiveState();
-  }
-});
-
-mainPin.addEventListener("keydown", function (evt) {
+function onMainPinEnterPress(evt) {
   if (evt.key === "Enter") {
     setActiveState();
   }
-});
-//  renderPinCard(offerArray);
+}
 
+function onMainPinMousePress(evt) {
+  if (typeof evt === "object" && evt.button === 0) {
+    setActiveState();
+  }
+}
+
+setNonActiveState();
+setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
+
+//===================================================
 // Validation
-
 let roomNumber = document.querySelector("#room_number");
 let capacity = document.querySelector("#capacity");
 
 function compareFields() {
   let capacityValue = capacity[capacity.selectedIndex].value;
   let roomNumberValue = roomNumber[roomNumber.selectedIndex].value;
-
-console.log(capacityValue, roomNumberValue);
 
   if (capacityValue === "0" && roomNumberValue === "100") {
     capacity.setCustomValidity("");

@@ -246,7 +246,7 @@ let typeField = document.querySelector("#type");
 let priceField = document.querySelector("#price");
 
 typeField.addEventListener("input", evt => {
-  switch (evt.target.options.selectedIndex){
+  switch (evt.target.options.selectedIndex) {
     case 0:
       priceField.setAttribute("min", "0");
       break;
@@ -261,7 +261,7 @@ typeField.addEventListener("input", evt => {
       break;
     default:
       priceField.setAttribute("min", "0");
-  };
+  }
 });
 
 let timeinField = document.querySelector("#timein");

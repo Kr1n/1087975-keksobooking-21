@@ -141,6 +141,7 @@ function renderPinCard(offers) {
 
 // State
 let mainPin = document.querySelector(".map__pin--main");
+let form = document.querySelector(".ad-form");
 let formFieldsets = document.querySelectorAll(".ad-form fieldset");
 let mapFilters = document.querySelectorAll(".map__filters > *");
 let addressField = document.querySelector("#address");
@@ -148,6 +149,7 @@ let addressField = document.querySelector("#address");
 function setActiveState() {
   formFieldsets.forEach(item => item.disabled = false);
   mapFilters.forEach(item => item.disabled = false);
+  form.classList.remove("ad-form--disabled");
   map.classList.remove("map--faded");
   renderMapPins(offerArray);
 }
@@ -155,6 +157,8 @@ function setActiveState() {
 function setNonActiveState() {
   formFieldsets.forEach(item => item.disabled = true);
   mapFilters.forEach(item => item.disabled = true);
+  form.classList.add("ad-form--disabled");
+  map.classList.add("map--faded");
 }
 
 function setAddressValue(x, y) {
@@ -170,9 +174,32 @@ mainPin.addEventListener("mousedown", function (evt) {
   }
 });
 
-mainPin.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
+mainPin.addEventListener("keydown", function (evt) {
+  if (evt.key === "Enter") {
     setActiveState();
   }
 });
 //  renderPinCard(offerArray);
+
+// Validation
+
+let roomNumber = document.querySelector("#room_number");
+let capacity = document.querySelector("#capacity");
+
+function compareFields() {
+  let capacityValue = capacity[capacity.selectedIndex].value;
+  let roomNumberValue = roomNumber[roomNumber.selectedIndex].value;
+
+console.log(capacityValue, roomNumberValue);
+
+  if (capacityValue === "0" && roomNumberValue === "100") {
+    capacity.setCustomValidity("");
+  } else if (capacityValue !== roomNumberValue) {
+    capacity.setCustomValidity("Количество гостей и комнат не совпадает");
+  } else {
+    capacity.setCustomValidity("");
+  }
+}
+
+roomNumber.addEventListener("input", compareFields);
+capacity.addEventListener("input", compareFields);

@@ -65,17 +65,10 @@
 
     pinCards.forEach(item => item.remove());
     element.appendChild(createPinCard(offer));
-
     map.querySelector(".map__filters-container").insertAdjacentHTML("beforebegin", element.innerHTML);
 
-    map.querySelector(".popup__close").addEventListener("click", function (evt) {
-      window.pin.closePinCard(evt.target);
-    });
-    map.querySelector(".popup__close").addEventListener("keydown", function (evt) {
-      if (evt.key === "Enter") {
-        window.pin.closePinCard();
-      }
-    });
+    map.querySelector(".popup__close").addEventListener("click", function (evt) { window.pin.closePinCard(evt.target); });
+    map.querySelector(".popup__close").addEventListener("keydown", function (evt) { if (evt.key === "Enter") { window.pin.closePinCard(); }});
     document.addEventListener("keydown", window.pin.onPinCardEscPress);
   }
 })();

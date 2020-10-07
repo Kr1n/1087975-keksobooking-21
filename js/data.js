@@ -2,7 +2,7 @@
 
 (function() {
 
-  let map = document.querySelector(".map");
+  const map = document.querySelector(".map");
 
   const offerTypes = ["palace", "flat", "house", "bungalow"];
   const checkinTimes = ["12:00", "13:00", "14:00"];

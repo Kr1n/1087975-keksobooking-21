@@ -2,11 +2,7 @@
 
 (function() {
 
-  let mainPin = document.querySelector(".map__pin--main");
-  let form = document.querySelector(".ad-form");
-  let formFieldsets = document.querySelectorAll(".ad-form fieldset");
-  let mapFilters = document.querySelectorAll(".map__filters > *");
-  let map = document.querySelector(".map");
+  const mainPin = document.querySelector(".map__pin--main");
 
   const mainPinWidth = 62;
   const mainPinHeight = 84;

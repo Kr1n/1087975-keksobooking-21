@@ -2,7 +2,15 @@
 
 (function() {
 
+  const mainPin = document.querySelector(".map__pin--main");
   const pinCardTemplate = document.querySelector("#card");
+  const formFieldsets = document.querySelectorAll(".ad-form fieldset");
+  const mapFilters = document.querySelectorAll(".map__filters > *");
+  const map = document.querySelector(".map");
+  const form = document.querySelector(".ad-form");
+
+  const pinWidth = 50;
+  const pinHeight = 70;
 
   window.pin = {
     onPinCardEscPress: onPinCardEscPress,
@@ -10,6 +18,29 @@
     onMainPinMousePress: onMainPinMousePress,
     createPinCard: createPinCard,
     renderPinCard: renderPinCard,
+    setActiveState: setActiveState,
+    setNonActiveState: setNonActiveState,
+    pinWidth: pinWidth,
+    pinHeight: pinHeight,
+  }
+
+  function setActiveState() {
+    formFieldsets.forEach(item => item.disabled = false);
+    mapFilters.forEach(item => item.disabled = false);
+    form.classList.remove("ad-form--disabled");
+    map.classList.remove("map--faded");
+    window.map.renderMapPins(window.data.offers);
+    mainPin.removeEventListener("mousedown", onMainPinMousePress);
+    mainPin.removeEventListener("keydown", onMainPinEnterPress);
+  }
+
+  function setNonActiveState() {
+    formFieldsets.forEach(item => item.disabled = true);
+    mapFilters.forEach(item => item.disabled = true);
+    form.classList.add("ad-form--disabled");
+    map.classList.add("map--faded");
+    mainPin.addEventListener("mousedown", window.pin.onMainPinMousePress);
+    mainPin.addEventListener("keydown", window.pin.onMainPinMousePress);
   }
 
   function createPinCard(offer) {
@@ -51,11 +82,11 @@
     pinCard.querySelector("img").src = offer.author.avatar;
 
     let photos = pinCard.querySelector(".popup__photos");
-    removeAllChildNodes(photos);
+    window.util.removeAllChildNodes(photos);
     photos.appendChild(photosList);
 
     let features = pinCard.querySelector(".popup__features");
-    removeAllChildNodes(features);
+    window.util.removeAllChildNodes(features);
     features.appendChild(featuresList);
 
     return pinCard;

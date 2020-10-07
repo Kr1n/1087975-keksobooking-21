@@ -11,9 +11,6 @@
   const offerPhotos = ["http://o0.github.io/assets/images/tokyo/hotel1.jpg", "http://o0.github.io/assets/images/tokyo/hotel2.jpg", "http://o0.github.io/assets/images/tokyo/hotel3.jpg"];
   const offers = [];
 
-  const pinWidth = 50;
-  const pinHeight = 70;
-
   window.data = {
     createOffersArray: function (count = 8) {
       let locationX;
@@ -21,7 +18,7 @@
 
       for (let i = 1; i <= count; i++) {
 
-        locationX = window.util.getRandomInt(pinWidth / 2, map.clientWidth - pinWidth / 2);
+        locationX = window.util.getRandomInt(window.pin.pinWidth / 2, map.clientWidth - window.pin.pinWidth / 2);
         locationY = window.util.getRandomInt(130, 630);
 
         offers[i - 1] = {
@@ -48,6 +45,7 @@
         };
       }
       return offers;
-    }
+    },
+    offers: offers,
   }
 })();

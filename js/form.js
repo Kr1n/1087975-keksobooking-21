@@ -9,9 +9,6 @@
     setAddressValue: setAddressValue,
   }
 
-  let roomNumber = document.querySelector("#room_number");
-  let capacity = document.querySelector("#capacity");
-
   function compareFields() {
     let capacityValue = capacity[capacity.selectedIndex].value;
     let roomNumberValue = roomNumber[roomNumber.selectedIndex].value;
@@ -24,6 +21,13 @@
       capacity.setCustomValidity("");
     }
   }
+
+  function setAddressValue(x, y) {
+    addressField.value = Math.floor(x) + ", " + Math.floor(y);
+  }
+
+  let roomNumber = document.querySelector("#room_number");
+  let capacity = document.querySelector("#capacity");
 
   roomNumber.addEventListener("input", compareFields);
   capacity.addEventListener("input", compareFields);
@@ -61,9 +65,5 @@
   timeoutField.addEventListener("input", evt => {
     timeinField.options.selectedIndex = evt.target.options.selectedIndex;
   });
-
-  function setAddressValue(x, y) {
-    addressField.value = Math.floor(x) + ", " + Math.floor(y);
-  }
 
 })();

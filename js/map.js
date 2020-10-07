@@ -31,7 +31,7 @@
     pinList = map.querySelectorAll(".map__pin");
 
     for (let i = 1; i < pinList.length; i++) {
-      pinList[i].addEventListener("click", () => window.pin.renderPinCard(window.data.offers[i - 1]));
+      pinList[i].addEventListener("click", () => window.card.renderPinCard(window.data.offers[i - 1]));
     }
   }
 

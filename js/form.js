@@ -5,6 +5,16 @@
   let addressField = document.querySelector("#address");
   let formFieldsets = document.querySelectorAll(".ad-form fieldset");
 
+  let roomNumber = document.querySelector("#room_number");
+  let capacity = document.querySelector("#capacity");
+  let typeField = document.querySelector("#type");
+  let priceField = document.querySelector("#price");
+  let timeinField = document.querySelector("#timein");
+  let timeoutField = document.querySelector("#timeout");
+
+  let errorMessage;
+  let successMesasge;
+
   window.form = {
     setAddressValue: setAddressValue,
   }
@@ -26,15 +36,8 @@
     addressField.value = Math.floor(x) + ", " + Math.floor(y);
   }
 
-  let roomNumber = document.querySelector("#room_number");
-  let capacity = document.querySelector("#capacity");
-
   roomNumber.addEventListener("input", compareFields);
   capacity.addEventListener("input", compareFields);
-
-
-  let typeField = document.querySelector("#type");
-  let priceField = document.querySelector("#price");
 
   typeField.addEventListener("input", evt => {
     switch (evt.target.options.selectedIndex) {
@@ -55,9 +58,6 @@
     }
   });
 
-  let timeinField = document.querySelector("#timein");
-  let timeoutField = document.querySelector("#timeout");
-
   timeinField.addEventListener("input", evt => {
     timeoutField.options.selectedIndex = evt.target.options.selectedIndex;
   });
@@ -65,5 +65,53 @@
   timeoutField.addEventListener("input", evt => {
     timeinField.options.selectedIndex = evt.target.options.selectedIndex;
   });
+
+  let onMessageEscPress = (evt) => {
+    if (evt.key === "Escape") {
+      evt.preventDefault();
+      removeErrorMessage();
+      document.removeEventListener("keydown", onMessageEscPress);
+      document.removeEventListener("click", onClick);
+    }
+  }
+
+  let onClick = (evt) => {
+    removeErrorMessage();
+    document.removeEventListener("keydown", onMessageEscPress);
+    document.removeEventListener("click", onClick);
+  }
+
+  let removeErrorMessage = () => document.querySelector(".error").remove();
+
+  let onErrorSubmit = (evt) => {
+    const errorMessageTemplate = document.querySelector("#error");
+    const mainElement = document.querySelector("main");
+    mainElement.appendChild(errorMessageTemplate.cloneNode(true).content);
+
+    errorMessage = document.querySelector(".error");
+    document.addEventListener("keydown", onMessageEscPress);
+    document.addEventListener("click", onClick);
+  }
+
+  let onSuccessSubmit = (evt) => {
+    const successMessageTemplate = document.querySelector("#success");
+    const mainElement = document.querySelector("main");
+    mainElement.appendChild(successMessageTemplate.cloneNode(true).content);
+
+    let successMesasge = document.querySelector(".success");
+  }
+
+  let form = document.querySelector(".ad-form");
+
+  let submitHandler = (evt) => {
+    evt.preventDefault();
+
+    window.backend.save(
+      new FormData(form),
+      onSuccessSubmit,
+      onErrorSubmit);
+  };
+
+  form.addEventListener("submit", submitHandler);
 
 })();

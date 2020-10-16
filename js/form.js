@@ -12,8 +12,7 @@
   let timeinField = document.querySelector("#timein");
   let timeoutField = document.querySelector("#timeout");
 
-  let errorMessage;
-  let successMesasge;
+  let message;
 
   window.form = {
     setAddressValue: setAddressValue,
@@ -69,36 +68,40 @@
   let onMessageEscPress = (evt) => {
     if (evt.key === "Escape") {
       evt.preventDefault();
-      removeErrorMessage();
+      removeMessage();
       document.removeEventListener("keydown", onMessageEscPress);
       document.removeEventListener("click", onClick);
     }
   }
 
   let onClick = (evt) => {
-    removeErrorMessage();
+    removeMessage();
     document.removeEventListener("keydown", onMessageEscPress);
     document.removeEventListener("click", onClick);
   }
 
-  let removeErrorMessage = () => document.querySelector(".error").remove();
+  let removeMessage = () => message.remove();
 
   let onErrorSubmit = (evt) => {
     const errorMessageTemplate = document.querySelector("#error");
     const mainElement = document.querySelector("main");
     mainElement.appendChild(errorMessageTemplate.cloneNode(true).content);
 
-    errorMessage = document.querySelector(".error");
+    message = document.querySelector(".error");
     document.addEventListener("keydown", onMessageEscPress);
     document.addEventListener("click", onClick);
   }
+
+  let removeSuccessMessage = () => document.querySelector(".success").remove();
 
   let onSuccessSubmit = (evt) => {
     const successMessageTemplate = document.querySelector("#success");
     const mainElement = document.querySelector("main");
     mainElement.appendChild(successMessageTemplate.cloneNode(true).content);
 
-    let successMesasge = document.querySelector(".success");
+    message = document.querySelector(".success");
+    document.addEventListener("keydown", onMessageEscPress);
+    document.addEventListener("click", onClick);
   }
 
   let form = document.querySelector(".ad-form");

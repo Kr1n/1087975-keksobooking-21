@@ -7,11 +7,13 @@
   let startCoords = {};
   let dragged = false;
 
-  const mainPinWidth = 62;
-  const mainPinHeight = 84;
+  document.mainPin = {
+    mainPinWidth: 62,
+    mainPinHeight: 84
+  }
 
-  const MIN_OFFSET_Y = 130 - mainPinHeight;
-  const MAX_OFFSET_Y = 630 - mainPinHeight;
+  const MIN_OFFSET_Y = 130 - document.mainPin.mainPinHeight;
+  const MAX_OFFSET_Y = 630 - document.mainPin.mainPinHeight;
 
   mainPin.addEventListener("mousedown", onMouseDown);
 
@@ -59,10 +61,10 @@
 
     let offsetX = mainPin.offsetLeft - shift.x;
 
-    if (offsetX <  (-mainPinWidth / 2)) {
-      offsetX =  -mainPinWidth / 2 ;
-    } else if (offsetX > (map.offsetWidth  - mainPinWidth / 2)) {
-      offsetX = map.offsetWidth - mainPinWidth / 2;
+    if (offsetX <  (-document.mainPin.mainPinWidth / 2)) {
+      offsetX =  -document.mainPin.mainPinWidth / 2 ;
+    } else if (offsetX > (map.offsetWidth  - document.mainPin.mainPinWidth / 2)) {
+      offsetX = map.offsetWidth - document.mainPin.mainPinWidth / 2;
     }
 
     let offsetY = mainPin.offsetTop - shift.y;

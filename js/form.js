@@ -117,4 +117,14 @@
 
   form.addEventListener("submit", submitHandler);
 
+  const mainPin = document.querySelector(".map__pin--main");
+  let resetButton = document.querySelector(".ad-form__reset");
+
+  let reset = (evt) => {
+    console.log("reset");
+    setTimeout(window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight), 1000);
+  }
+  
+  resetButton.addEventListener("click", reset);
+  
 })();

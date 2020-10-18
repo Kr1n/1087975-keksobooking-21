@@ -41,12 +41,17 @@
     }
   }
 
+  function successHandler(wizards) {
+    window.data = { offers: wizards }
+    renderMapPins(wizards);
+  };
+
   function setActiveState() {
     formFieldsets.forEach(item => item.disabled = false);
     mapFilters.forEach(item => item.disabled = false);
     form.classList.remove("ad-form--disabled");
     map.classList.remove("map--faded");
-    window.map.renderMapPins(window.data.offers);
+    window.backend.load(successHandler);
     mainPin.removeEventListener("mousedown", window.pin.onMainPinMousePress);
     mainPin.removeEventListener("keydown", window.pin.onMainPinEnterPress);
   }

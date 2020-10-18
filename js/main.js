@@ -4,11 +4,7 @@
 
   const mainPin = document.querySelector(".map__pin--main");
 
-  const mainPinWidth = 62;
-  const mainPinHeight = 84;
-
-  window.data.createOffersArray(8);
   window.map.setNonActiveState();
-  window.form.setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
+  window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight);
 
 })();

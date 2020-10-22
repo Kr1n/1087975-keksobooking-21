@@ -7,9 +7,12 @@
   let startCoords = {};
   let dragged = false;
 
+  let mainPinWidth = 62;
+  let mainPinHeight = 84
+
   document.mainPin = {
-    mainPinWidth: 62,
-    mainPinHeight: 84
+    mainPinWidth: mainPinWidth,
+    mainPinHeight: mainPinHeight
   }
 
   const MIN_OFFSET_Y = 130 - document.mainPin.mainPinHeight;
@@ -77,6 +80,8 @@
 
     mainPin.style.top = offsetY + 'px';
     mainPin.style.left = offsetX + 'px';
+
+    window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight);
   }
 
 })();

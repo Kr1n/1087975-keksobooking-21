@@ -121,10 +121,22 @@
   let resetButton = document.querySelector(".ad-form__reset");
 
   let reset = (evt) => {
-    console.log("reset");
-    setTimeout(window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight), 1000);
+    evt.preventDefault();
+
+    window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight);
+    document.querySelector("#title").value = "";
+    document.querySelector("#type").selectedIndex = 1;
+    document.querySelector("#price").value = "";
+    document.querySelector("#room_number").selectedIndex = 0;
+    document.querySelector("#capacity").selectedIndex = 2;
+    document.querySelector("#description").value = "";
+    document.querySelector("#timein").selectedIndex = 0;
+    document.querySelector("#timeout").selectedIndex = 0;
+    document.querySelector("#avatar").value = "";
+    document.querySelector("#images").value = "";
+
+    document.querySelectorAll(".features input").forEach(element => element.checked = 0);
   }
-  
+
   resetButton.addEventListener("click", reset);
-  
 })();

@@ -81,7 +81,7 @@
     mainPin.style.top = offsetY + 'px';
     mainPin.style.left = offsetX + 'px';
 
-    window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight);
+    window.form.setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
   }
 
 })();

@@ -10,6 +10,8 @@
   const mainPin = document.querySelector(".map__pin--main");
   map.classList.remove("map--faded");
 
+  const MAX_RENDERED_PINS = 5;
+
   window.map = {
     renderMapPins: renderMapPins,
     setActiveState: setActiveState,
@@ -25,25 +27,33 @@
     return mapPin;
   }
 
-  function renderMapPins(offers) {
+  function clearMapPins() {
+    let pins = map.querySelectorAll(".map__pins button");
+    pins.forEach(element => {if (!element.classList.contains("map__pin--main")) element.remove()});
+  }
+
+  function renderMapPins() {
+    clearMapPins();
     let pinList = map.querySelector(".map__pins");
     let fragment = document.createDocumentFragment();
 
-    for (let i = 0; i < offers.length; i++) {
+    let offers = window.filters.applyFilters(window.data.offers);
+    const pinCount = (MAX_RENDERED_PINS < offers.length) ? 5 : offers.length;
+
+    for (let i = 0; i < pinCount; i++) {
       fragment.appendChild(createMapPin(offers[i]));
     }
-
     pinList.appendChild(fragment);
-    pinList = map.querySelectorAll(".map__pin");
 
-    for (let i = 1; i < pinList.length; i++) {
-      pinList[i].addEventListener("click", () => window.card.renderPinCard(window.data.offers[i - 1]));
+    let pins = map.querySelectorAll(".map__pin");
+    for (let i = 0; i < pinCount; i++) {
+      pins[i + 1].addEventListener("click", () => window.card.renderPinCard(offers[i]));
     }
   }
 
-  function successHandler(wizards) {
-    window.data = { offers: wizards }
-    renderMapPins(wizards);
+  function successHandler(offers) {
+    window.data = { offers: offers }
+    renderMapPins();
   };
 
   function setActiveState() {

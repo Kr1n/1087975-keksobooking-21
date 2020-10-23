@@ -10,17 +10,17 @@
   const map = document.querySelector(".map");
   const pinCardTemplate = document.querySelector("#card");
 
+  const types = {
+    "flat": "Квартира",
+    "bungalow": "Бунгало",
+    "house": "Дом",
+    "palace": "Дворец",
+  }
+
   function createPinCard(offer) {
     let pinCard = pinCardTemplate.cloneNode(true).content;
 
-    let type;
-    switch (offer.offer.type) {
-      case "flat": type = "Квартира"; break;
-      case "bungalow": type = "Бунгало"; break;
-      case "house": type = "Дом"; break;
-      case "palace": type = "Дворец"; break;
-      default: type = "Квартира"; break;
-    }
+    let type = types[offer.offer.type];
 
     let photosList = document.createDocumentFragment();
     let photoItem;

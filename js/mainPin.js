@@ -15,8 +15,8 @@
     mainPinHeight: mainPinHeight
   }
 
-  const MIN_OFFSET_Y = 130 - document.mainPin.mainPinHeight;
-  const MAX_OFFSET_Y = 630 - document.mainPin.mainPinHeight;
+  const MIN_OFFSET_Y = 130 - mainPinHeight;
+  const MAX_OFFSET_Y = 630 - mainPinHeight;
 
   mainPin.addEventListener("mousedown", onMouseDown);
 
@@ -64,10 +64,10 @@
 
     let offsetX = mainPin.offsetLeft - shift.x;
 
-    if (offsetX <  (-document.mainPin.mainPinWidth / 2)) {
-      offsetX =  -document.mainPin.mainPinWidth / 2 ;
-    } else if (offsetX > (map.offsetWidth  - document.mainPin.mainPinWidth / 2)) {
-      offsetX = map.offsetWidth - document.mainPin.mainPinWidth / 2;
+    if (offsetX <  (-mainPinWidth / 2)) {
+      offsetX =  -mainPinWidth / 2 ;
+    } else if (offsetX > (map.offsetWidth - mainPinWidth / 2)) {
+      offsetX = map.offsetWidth - mainPinWidth / 2;
     }
 
     let offsetY = mainPin.offsetTop - shift.y;

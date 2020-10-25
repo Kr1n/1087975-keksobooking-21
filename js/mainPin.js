@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 (function () {
 
-  const map = document.querySelector(".map");
-  let mainPin = document.querySelector(".map__pin--main");
+  const map = document.querySelector('.map');
+  let mainPin = document.querySelector('.map__pin--main');
   let startCoords = {};
   let dragged = false;
 
@@ -18,7 +18,7 @@
   const MIN_OFFSET_Y = 130 - mainPinHeight;
   const MAX_OFFSET_Y = 630 - mainPinHeight;
 
-  mainPin.addEventListener("mousedown", onMouseDown);
+  mainPin.addEventListener('mousedown', onMouseDown);
 
   function onMouseDown(evt) {
     evt.preventDefault();

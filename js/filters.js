@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 (function() {
 
@@ -7,10 +7,10 @@
   }
 
   function applyFilters(offers) {
-    const type = document.querySelector("#housing-type").value;
+    const type = document.querySelector('#housing-type').value;
 
     const sameTypeOffers = offers.filter(item => {
-      return (type === "any") || (item.offer.type === type);
+      return (type === 'any') || (item.offer.type === type);
     });
 
     return sameTypeOffers;
@@ -21,7 +21,7 @@
     window.map.renderMapPins();
   }
 
-  const type = document.querySelector("#housing-type");
-  type.addEventListener("change", onFilterChange);
+  const type = document.querySelector('#housing-type');
+  type.addEventListener('change', onFilterChange);
 
 }());

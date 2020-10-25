@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 (function () {
 
@@ -38,7 +38,7 @@
     },
     save: function (data, onSuccess, onError) {
       if (!onError) onError = errorHandler;
-      console.log("save function");
+      console.log('save function');
       console.log(data);
       let xhr = new XMLHttpRequest();
       xhr.responseType = 'json';

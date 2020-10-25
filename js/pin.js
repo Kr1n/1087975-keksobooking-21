@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 (function() {
 
-  const mainPin = document.querySelector(".map__pin--main");
-  const map = document.querySelector(".map");
+  const mainPin = document.querySelector('.map__pin--main');
+  const map = document.querySelector('.map');
 
   const pinWidth = 50;
   const pinHeight = 70;
@@ -18,25 +18,25 @@
   }
 
   function closePinCard() {
-    map.querySelector(".popup").classList.add("hidden");
-    document.removeEventListener("keydown", onPinCardEscPress);
+    map.querySelector('.popup').classList.add('hidden');
+    document.removeEventListener('keydown', onPinCardEscPress);
   }
 
   function onPinCardEscPress(evt) {
-    if (evt.key === "Escape") {
+    if (evt.key === 'Escape') {
       evt.preventDefault();
       closePinCard();
     }
   }
 
   function onMainPinEnterPress(evt) {
-    if (evt.key === "Enter") {
+    if (evt.key === 'Enter') {
       window.map.setActiveState();
     }
   }
 
   function onMainPinMousePress(evt) {
-    if (typeof evt === "object" && evt.button === 0) {
+    if (typeof evt === 'object' && evt.button === 0) {
       window.map.setActiveState();
     }
   }

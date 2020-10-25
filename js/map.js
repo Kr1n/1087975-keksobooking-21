@@ -1,14 +1,14 @@
-"use strict";
+'use strict';
 
 (function() {
 
-  const mapPinTemplate = document.querySelector("#pin");
-  const map = document.querySelector(".map");
-  const formFieldsets = document.querySelectorAll(".ad-form fieldset");
-  const mapFilters = document.querySelectorAll(".map__filters > *");
-  const form = document.querySelector(".ad-form");
-  const mainPin = document.querySelector(".map__pin--main");
-  map.classList.remove("map--faded");
+  const mapPinTemplate = document.querySelector('#pin');
+  const map = document.querySelector('.map');
+  const formFieldsets = document.querySelectorAll('.ad-form fieldset');
+  const mapFilters = document.querySelectorAll('.map__filters > *');
+  const form = document.querySelector('.ad-form');
+  const mainPin = document.querySelector('.map__pin--main');
+  map.classList.remove('map--faded');
 
   const MAX_RENDERED_PINS = 5;
 
@@ -21,20 +21,20 @@
   function createMapPin(offer) {
     let mapPin = mapPinTemplate.cloneNode(true).content;
 
-    mapPin.querySelector(".map__pin").style = "left: " + (offer.location.x - window.pin.pinWidth / 2) + "px; top: " + (offer.location.y - window.pin.pinHeight) + "px;";
-    mapPin.querySelector("img").src = offer.author.avatar;
-    mapPin.querySelector("img").alt = offer.offer.title;
+    mapPin.querySelector('.map__pin').style = 'left: ' + (offer.location.x - window.pin.pinWidth / 2) + 'px; top: ' + (offer.location.y - window.pin.pinHeight) + 'px;';
+    mapPin.querySelector('img').src = offer.author.avatar;
+    mapPin.querySelector('img').alt = offer.offer.title;
     return mapPin;
   }
 
   function clearMapPins() {
-    let pins = map.querySelectorAll(".map__pins button");
-    pins.forEach(element => {if (!element.classList.contains("map__pin--main")) element.remove()});
+    let pins = map.querySelectorAll('.map__pins button');
+    pins.forEach(element => {if (!element.classList.contains('map__pin--main')) element.remove()});
   }
 
   function renderMapPins() {
     clearMapPins();
-    let pinList = map.querySelector(".map__pins");
+    let pinList = map.querySelector('.map__pins');
     let fragment = document.createDocumentFragment();
 
     let offers = window.filters.applyFilters(window.data.offers);
@@ -45,9 +45,9 @@
     }
     pinList.appendChild(fragment);
 
-    let pins = map.querySelectorAll(".map__pin");
+    let pins = map.querySelectorAll('.map__pin');
     for (let i = 0; i < pinCount; i++) {
-      pins[i + 1].addEventListener("click", () => window.card.renderPinCard(offers[i]));
+      pins[i + 1].addEventListener('click', () => window.card.renderPinCard(offers[i]));
     }
   }
 
@@ -59,20 +59,20 @@
   function setActiveState() {
     formFieldsets.forEach(item => item.disabled = false);
     mapFilters.forEach(item => item.disabled = false);
-    form.classList.remove("ad-form--disabled");
-    map.classList.remove("map--faded");
+    form.classList.remove('ad-form--disabled');
+    map.classList.remove('map--faded');
     window.backend.load(successHandler);
-    mainPin.removeEventListener("mousedown", window.pin.onMainPinMousePress);
-    mainPin.removeEventListener("keydown", window.pin.onMainPinEnterPress);
+    mainPin.removeEventListener('mousedown', window.pin.onMainPinMousePress);
+    mainPin.removeEventListener('keydown', window.pin.onMainPinEnterPress);
   }
 
   function setNonActiveState() {
     formFieldsets.forEach(item => item.disabled = true);
     mapFilters.forEach(item => item.disabled = true);
-    form.classList.add("ad-form--disabled");
-    map.classList.add("map--faded");
-    mainPin.addEventListener("mousedown", window.pin.onMainPinMousePress);
-    mainPin.addEventListener("keydown", window.pin.onMainPinMousePress);
+    form.classList.add('ad-form--disabled');
+    map.classList.add('map--faded');
+    mainPin.addEventListener('mousedown', window.pin.onMainPinMousePress);
+    mainPin.addEventListener('keydown', window.pin.onMainPinMousePress);
   }
 
 })();

@@ -18,7 +18,9 @@
   }
 
   function closePinCard() {
-    map.querySelector(".popup").classList.add("hidden");
+    let popup = map.querySelector(".popup");
+
+    if (popup) popup.classList.add("hidden");
     document.removeEventListener("keydown", onPinCardEscPress);
   }
 

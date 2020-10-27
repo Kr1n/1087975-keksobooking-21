@@ -1,16 +1,26 @@
 'use strict';
 
-(function() {
+  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  let addressField = document.querySelector('#address');
-  let formFieldsets = document.querySelectorAll('.ad-form fieldset');
+  const mainPin = document.querySelector('.map__pin--main');
+  const resetButton = document.querySelector('.ad-form__reset');
+  const form = document.querySelector('.ad-form');
 
-  let roomNumber = document.querySelector('#room_number');
-  let capacity = document.querySelector('#capacity');
-  let typeField = document.querySelector('#type');
-  let priceField = document.querySelector('#price');
-  let timeinField = document.querySelector('#timein');
-  let timeoutField = document.querySelector('#timeout');
+  const addressField = document.querySelector('#address');
+  const formFieldsets = document.querySelectorAll('.ad-form fieldset');
+
+  const roomNumber = document.querySelector('#room_number');
+  const capacity = document.querySelector('#capacity');
+  const typeField = document.querySelector('#type');
+  const priceField = document.querySelector('#price');
+  const timeinField = document.querySelector('#timein');
+  const timeoutField = document.querySelector('#timeout');
+
+  const avatarFileChooser = document.querySelector('.ad-form__field input[type=file]');
+  const avatarPreview = document.querySelector('.ad-form-header__preview img');
+
+  const imageFileChooser = document.querySelector('.ad-form__upload input[type=file]');
+  const imagePreview = document.querySelector('.ad-form__photo');
 
   let message;
 
@@ -18,9 +28,42 @@
     setAddressValue: setAddressValue,
   }
 
-  function compareFields() {
-    let capacityValue = capacity[capacity.selectedIndex].value;
-    let roomNumberValue = roomNumber[roomNumber.selectedIndex].value;
+  const showPictureFromInput = (file, preview) => {
+
+    let fileName = file.name.toLowerCase();
+
+    let matches = FILE_TYPES.some((it) => {
+     return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      let reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        preview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  avatarFileChooser.addEventListener('change', () => {
+    showPictureFromInput(avatarFileChooser.files[0], avatarPreview);
+  });
+
+  imageFileChooser.addEventListener('change', () => {
+    let imageElement = document.createElement('img');
+    imageElement.setAttribute('width', '70');
+    imageElement.setAttribute('height', '70');
+    imageElement.setAttribute('alt', 'Предпросмотр картинки пользователя');
+    imagePreview.appendChild(imageElement);
+
+    showPictureFromInput(imageFileChooser.files[0], imagePreview.querySelector('img'));
+  });
+
+  const compareFields = () => {
+    const capacityValue = capacity[capacity.selectedIndex].value;
+    const roomNumberValue = roomNumber[roomNumber.selectedIndex].value;
 
     if (capacityValue === '0' && roomNumberValue === '100') {
       capacity.setCustomValidity('');
@@ -65,7 +108,7 @@
     timeinField.options.selectedIndex = evt.target.options.selectedIndex;
   });
 
-  let onMessageEscPress = (evt) => {
+  const onMessageEscPress = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       removeMessage();
@@ -74,15 +117,15 @@
     }
   }
 
-  let onClick = (evt) => {
+  const onClick = (evt) => {
     removeMessage();
     document.removeEventListener('keydown', onMessageEscPress);
     document.removeEventListener('click', onClick);
   }
 
-  let removeMessage = () => message.remove();
+  const removeMessage = () => message.remove();
 
-  let onErrorSubmit = (evt) => {
+  const onErrorSubmit = (evt) => {
     const errorMessageTemplate = document.querySelector('#error');
     const mainElement = document.querySelector('main');
     mainElement.appendChild(errorMessageTemplate.cloneNode(true).content);
@@ -92,9 +135,9 @@
     document.addEventListener('click', onClick);
   }
 
-  let removeSuccessMessage = () => document.querySelector('.success').remove();
+  const removeSuccessMessage = () => document.querySelector('.success').remove();
 
-  let onSuccessSubmit = (evt) => {
+  const onSuccessSubmit = (evt) => {
     const successMessageTemplate = document.querySelector('#success');
     const mainElement = document.querySelector('main');
     mainElement.appendChild(successMessageTemplate.cloneNode(true).content);
@@ -104,9 +147,7 @@
     document.addEventListener('click', onClick);
   }
 
-  let form = document.querySelector('.ad-form');
-
-  let submitHandler = (evt) => {
+  const submitHandler = (evt) => {
     evt.preventDefault();
 
     window.backend.save(
@@ -114,13 +155,9 @@
       onSuccessSubmit,
       onErrorSubmit);
   };
-
   form.addEventListener('submit', submitHandler);
 
-  const mainPin = document.querySelector('.map__pin--main');
-  let resetButton = document.querySelector('.ad-form__reset');
-
-  let reset = (evt) => {
+  const reset = (evt) => {
     evt.preventDefault();
 
     window.form.setAddressValue(mainPin.offsetLeft + document.mainPin.mainPinWidth / 2, mainPin.offsetTop + document.mainPin.mainPinHeight);
@@ -134,9 +171,12 @@
     document.querySelector('#timeout').selectedIndex = 0;
     document.querySelector('#avatar').value = '';
     document.querySelector('#images').value = '';
+    document.querySelector('.ad-form-header__preview img').src = 'img/muffin-grey.svg';
+
+    while (imagePreview.firstChild) {
+      imagePreview.removeChild(imagePreview.firstChild);
+    }
 
     document.querySelectorAll('.features input').forEach(element => element.checked = 0);
   }
-
   resetButton.addEventListener('click', reset);
-})();

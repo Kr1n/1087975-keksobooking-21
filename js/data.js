@@ -1,7 +1,5 @@
 'use strict';
 
-(function() {
-
   const map = document.querySelector('.map');
 
   const offerTypes = ['palace', 'flat', 'house', 'bungalow'];
@@ -48,4 +46,3 @@
     },
     offers: offers,
   }
-})();

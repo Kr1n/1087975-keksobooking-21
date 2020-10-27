@@ -1,24 +1,24 @@
 'use strict';
 
-const map = document.querySelector('.map');
-let mainPin = document.querySelector('.map__pin--main');
+const map = document.querySelector(`.map`);
+let mainPin = document.querySelector(`.map__pin--main`);
 let startCoords = {};
 let dragged = false;
 
 let mainPinWidth = 62;
-let mainPinHeight = 84
+let mainPinHeight = 84;
 
 document.mainPin = {
   mainPinWidth: mainPinWidth,
   mainPinHeight: mainPinHeight
-}
+};
 
 const MIN_OFFSET_Y = 130 - mainPinHeight;
 const MAX_OFFSET_Y = 630 - mainPinHeight;
 
-mainPin.addEventListener('mousedown', onMouseDown);
+mainPin.addEventListener(`mousedown`, onMouseDown);
 
-function onMouseDown(evt) {
+let onMouseDown = (evt) => {
   evt.preventDefault();
 
   dragged = false;
@@ -28,26 +28,26 @@ function onMouseDown(evt) {
     y: evt.clientY,
   };
 
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-}
+  document.addEventListener(`mousemove`, onMouseMove);
+  document.addEventListener(`mouseup`, onMouseUp);
+};
 
-function onMouseUp(evt) {
+let onMouseUp = (evt) => {
   evt.preventDefault();
 
-  document.removeEventListener('mousemove', onMouseMove);
-  document.removeEventListener('mouseup', onMouseUp);
+  document.removeEventListener(`mousemove`, onMouseMove);
+  document.removeEventListener(`mouseup`, onMouseUp);
 
   if (dragged) {
-    var onClickPreventDefault = function (clickEvt) {
+    let onClickPreventDefault = (clickEvt) => {
       clickEvt.preventDefault();
-      mainPin.removeEventListener('click', onClickPreventDefault)
+      mainPin.removeEventListener(`click`, onClickPreventDefault);
     };
-    mainPin.addEventListener('click', onClickPreventDefault);
+    mainPin.addEventListener(`click`, onClickPreventDefault);
   }
-}
+};
 
-function onMouseMove(evt) {
+let onMouseMove = (evt) => {
   dragged = true;
 
   let shift = {
@@ -62,8 +62,8 @@ function onMouseMove(evt) {
 
   let offsetX = mainPin.offsetLeft - shift.x;
 
-  if (offsetX <  (-mainPinWidth / 2)) {
-    offsetX =  -mainPinWidth / 2 ;
+  if (offsetX < (-mainPinWidth / 2)) {
+    offsetX = -mainPinWidth / 2;
   } else if (offsetX > (map.offsetWidth - mainPinWidth / 2)) {
     offsetX = map.offsetWidth - mainPinWidth / 2;
   }
@@ -71,13 +71,13 @@ function onMouseMove(evt) {
   let offsetY = mainPin.offsetTop - shift.y;
 
   if (offsetY < MIN_OFFSET_Y) {
-    offsetY = MIN_OFFSET_Y ;
+    offsetY = MIN_OFFSET_Y;
   } else if (offsetY > MAX_OFFSET_Y) {
-    offsetY = MAX_OFFSET_Y ;
+    offsetY = MAX_OFFSET_Y;
   }
 
-  mainPin.style.top = offsetY + 'px';
-  mainPin.style.left = offsetX + 'px';
+  mainPin.style.top = offsetY + `px`;
+  mainPin.style.left = offsetX + `px`;
 
   window.form.setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
-}
+};

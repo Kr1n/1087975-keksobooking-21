@@ -1,8 +1,8 @@
 'use strict';
 
-const urlData = `https://21.javascript.pages.academy/keksobooking/data`;
-const urlSave = `https://21.javascript.pages.academy/keksobooking`;
-const StatusCode = {
+const URL_DATA = `https://21.javascript.pages.academy/keksobooking/data`;
+const URL_SAVE = `https://21.javascript.pages.academy/keksobooking`;
+const STATUS_CODE = {
   OK: 200
 };
 const TIMEOUT_IN_MS = 5000;
@@ -13,27 +13,9 @@ window.backend = {
       onError = errorHandler;
     }
     let xhr = new XMLHttpRequest();
-    xhr.responseType = `json`;
+    createXhrConnection(xhr, onSuccess, onError);
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
-
-    xhr.timeout = TIMEOUT_IN_MS;
-
-    xhr.open(`GET`, urlData);
+    xhr.open(`GET`, URL_DATA);
     xhr.send();
   },
   save: (data, onSuccess, onError) => {
@@ -41,39 +23,50 @@ window.backend = {
       onError = errorHandler;
     }
     let xhr = new XMLHttpRequest();
-    xhr.responseType = `json`;
+    createXhrConnection(xhr, onSuccess, onError);
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
-      }
-    });
-
-    xhr.addEventListener(`error`, function () {
-      onError(`Произошла ошибка соединения`);
-    });
-
-    xhr.addEventListener(`timeout`, function () {
-      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
-    });
-
-    xhr.timeout = TIMEOUT_IN_MS;
-
-    xhr.open(`POST`, urlSave);
+    xhr.open(`POST`, URL_SAVE);
     xhr.send(data);
   },
 };
 
-let errorHandler = (errorMessage) => {
+const createXhrConnection = (xhr, onSuccess, onError) => {
+  xhr.responseType = `json`;
+
+  xhr.addEventListener(`load`, function () {
+    if (xhr.status === STATUS_CODE.OK) {
+      onSuccess(xhr.response);
+    } else {
+      onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
+    }
+  });
+
+  xhr.addEventListener(`error`, function () {
+    onError(`Произошла ошибка соединения`);
+  });
+
+  xhr.addEventListener(`timeout`, function () {
+    onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
+  });
+
+  xhr.timeout = TIMEOUT_IN_MS;
+};
+
+const errorHandler = (errorMessage) => {
   let node = document.createElement(`div`);
   node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
   node.style.position = `absolute`;
   node.style.left = 0;
   node.style.right = 0;
   node.style.fontSize = `30px`;
+  node.classList.add(`error-message`);
 
   node.textContent = errorMessage;
+
+  setTimeout(() => {
+    let errorMessage = document.querySelector(".error-message");
+    errorMessage.remove();
+  }, 5000);
+
   document.body.insertAdjacentElement(`afterbegin`, node);
 };

@@ -1,8 +1,7 @@
 'use strict';
 
 window.card = {
-  createPinCard: createPinCard,
-  renderPinCard: renderPinCard,
+  render,
 };
 
 const map = document.querySelector(`.map`);
@@ -15,27 +14,27 @@ const types = {
   palace: `Дворец`,
 };
 
-function createPinCard(offer) {
+function create(offer) {
   let pinCard = pinCardTemplate.cloneNode(true).content;
 
   let type = types[offer.offer.type];
 
   let photosList = document.createDocumentFragment();
   let photoItem;
-  for (let i = 0; i < offer.offer.photos.length; i++) {
+  offer.offer.photos.forEach((photo) => {
     photoItem = pinCard.querySelector(`.popup__photos img`).cloneNode(true);
-    photoItem.src = offer.offer.photos[i];
+    photoItem.src = photo;
     photosList.appendChild(photoItem);
-  }
+  });
 
   let featuresList = document.createDocumentFragment();
   let featuresItem;
-  for (let i = 0; i < offer.offer.features.length; i++) {
+  offer.offer.features.forEach((feature) => {
     featuresItem = document.createElement(`li`);
     featuresItem.classList.add(`popup__feature`);
-    featuresItem.classList.add(`popup__feature--` + offer.offer.features[i]);
+    featuresItem.classList.add(`popup__feature--` + feature);
     featuresList.appendChild(featuresItem);
-  }
+  });
 
   pinCard.querySelector(`.popup__title`).textContent = offer.offer.title;
   pinCard.querySelector(`.popup__text--address`).textContent = offer.offer.address;
@@ -57,21 +56,21 @@ function createPinCard(offer) {
   return pinCard;
 }
 
-function renderPinCard(offer) {
+function render(offer) {
   let pinCards = map.querySelectorAll(`.map__card`);
   let element = document.createElement(`div`);
 
   pinCards.forEach((item) => item.remove());
-  element.appendChild(createPinCard(offer));
+  element.appendChild(create(offer));
   map.querySelector(`.map__filters-container`).insertAdjacentHTML(`beforebegin`, element.innerHTML);
 
   map.querySelector(`.popup__close`).addEventListener(`click`, (evt) => {
-    window.pin.closePinCard(evt.target);
+    window.pin.closeCard(evt.target);
   });
   map.querySelector(`.popup__close`).addEventListener(`keydown`, (evt) => {
     if (evt.key === `Enter`) {
-      window.pin.closePinCard();
+      window.pin.closeCard();
     }
   });
-  document.addEventListener(`keydown`, window.pin.onPinCardEscPress);
+  document.addEventListener(`keydown`, window.pin.onCardEscPress);
 }

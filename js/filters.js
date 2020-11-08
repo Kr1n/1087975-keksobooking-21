@@ -1,7 +1,7 @@
 'use strict';
 
 window.filters = {
-  applyFilters: applyFilters,
+  apply,
 };
 
 const type = document.querySelector(`#housing-type`);
@@ -13,7 +13,7 @@ const featuresList = features.querySelectorAll(`input`);
 
 let filteredOffers;
 
-function applyFilters(offers) {
+function apply(offers) {
   filteredOffers = applyTypeFilter(offers);
   filteredOffers = applyPriceFilter(filteredOffers);
   filteredOffers = applyRoomFilter(filteredOffers);
@@ -22,16 +22,16 @@ function applyFilters(offers) {
   return filteredOffers;
 }
 
-const applyTypeFilter = (array) => {
-  const filteredArray = array.filter((item) => {
+const applyTypeFilter = (items) => {
+  const filteredArray = items.filter((item) => {
     return (type.value === `any`) || (type.value === item.offer.type);
   });
 
   return filteredArray;
 };
 
-const applyPriceFilter = (array) => {
-  const filteredArray = array.filter((item) => {
+const applyPriceFilter = (items) => {
+  const filteredArray = items.filter((item) => {
     switch (price.value) {
       case `low`:
         return Number(item.offer.price) <= 10000;
@@ -47,15 +47,15 @@ const applyPriceFilter = (array) => {
   return filteredArray;
 };
 
-const applyRoomFilter = (array) => {
-  const filteredArray = array.filter((item) => {
+const applyRoomFilter = (items) => {
+  const filteredArray = items.filter((item) => {
     return (rooms.value === `any`) || (rooms.value === item.offer.rooms.toString());
   });
   return filteredArray;
 };
 
-const applyGuestFilter = (array) => {
-  const filteredArray = array.filter((item) => {
+const applyGuestFilter = (items) => {
+  const filteredArray = items.filter((item) => {
     switch (guests.value) {
       case `any`:
         return true;
@@ -68,7 +68,7 @@ const applyGuestFilter = (array) => {
   return filteredArray;
 };
 
-const applyFeatureFilter = (array) => {
+const applyFeatureFilter = (items) => {
 
   let selectedFeatures = [];
   featuresList.forEach((item) => {
@@ -78,10 +78,10 @@ const applyFeatureFilter = (array) => {
   });
 
   if (!selectedFeatures.length) {
-    return array;
+    return items;
   }
 
-  const filteredArray = array.filter((item) => {
+  const filteredArray = items.filter((item) => {
     let flag = true;
 
     selectedFeatures.every((selectedFeature) => {
@@ -94,8 +94,8 @@ const applyFeatureFilter = (array) => {
 };
 
 const onFilterChange = () => {
-  window.pin.closePinCard();
-  window.map.renderMapPins();
+  window.pin.closeCard();
+  window.map.renderPins();
 };
 
 type.addEventListener(`change`, window.util.debounce(onFilterChange));

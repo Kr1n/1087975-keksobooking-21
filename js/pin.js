@@ -2,41 +2,41 @@
 
 const map = document.querySelector(`.map`);
 
-const pinWidth = 50;
-const pinHeight = 70;
+const PIN_WIDTH = 50;
+const PIN_HEIGHT = 70;
 
 window.pin = {
-  onPinCardEscPress: onPinCardEscPress,
-  onMainPinEnterPress: onMainPinEnterPress,
-  onMainPinMousePress: onMainPinMousePress,
-  closePinCard: closePinCard,
-  pinWidth: pinWidth,
-  pinHeight: pinHeight,
+  onCardEscPress,
+  onMainEnterPress,
+  onMainMousePress,
+  closeCard,
+  width: PIN_WIDTH,
+  height: PIN_HEIGHT,
 };
 
-function closePinCard() {
+function closeCard() {
   let popup = map.querySelector(`.popup`);
 
   if (popup) {
     popup.classList.add(`hidden`);
   }
-  document.removeEventListener(`keydown`, onPinCardEscPress);
+  document.removeEventListener(`keydown`, onCardEscPress);
 }
 
-function onPinCardEscPress(evt) {
+function onCardEscPress(evt) {
   if (evt.key === `Escape`) {
     evt.preventDefault();
-    closePinCard();
+    closeCard();
   }
 }
 
-function onMainPinEnterPress(evt) {
+function onMainEnterPress(evt) {
   if (evt.key === `Enter`) {
     window.map.setActiveState();
   }
 }
 
-function onMainPinMousePress(evt) {
+function onMainMousePress(evt) {
   if (typeof evt === `object` && evt.button === 0) {
     window.map.setActiveState();
   }

@@ -1,24 +1,30 @@
 'use strict';
 
+const WIDTH = 62;
+const HEIGHT = 84;
+const MIN_Y = 130;
+const MAX_Y = 630;
+const MIN_OFFSET_Y = MIN_Y - HEIGHT;
+const MAX_OFFSET_Y = MAX_Y - HEIGHT;
 const map = document.querySelector(`.map`);
-let mainPin = document.querySelector(`.map__pin--main`);
+const mainPin = document.querySelector(`.map__pin--main`);
+
 let startCoords = {};
 let dragged = false;
 
-let mainPinWidth = 62;
-let mainPinHeight = 84;
+const moveMainPin = (x,y) => {
+  mainPin.style.top = ((Number(y)) ? y : mainPin.offsetTop) + `px`;
+  mainPin.style.left = ((Number(x)) ? x : mainPin.offsetLeft) + `px`;
+  window.form.setAddressValue(mainPin.offsetLeft + WIDTH / 2, mainPin.offsetTop + HEIGHT);
+}
 
-document.mainPin = {
-  mainPinWidth: mainPinWidth,
-  mainPinHeight: mainPinHeight
+window.mainPin = {
+  width: WIDTH,
+  height: HEIGHT,
+  moveMainPin,
 };
 
-const MIN_OFFSET_Y = 130 - mainPinHeight;
-const MAX_OFFSET_Y = 630 - mainPinHeight;
-
-mainPin.addEventListener(`mousedown`, onMouseDown);
-
-let onMouseDown = (evt) => {
+const onMouseDown = (evt) => {
   evt.preventDefault();
 
   dragged = false;
@@ -32,14 +38,16 @@ let onMouseDown = (evt) => {
   document.addEventListener(`mouseup`, onMouseUp);
 };
 
-let onMouseUp = (evt) => {
+mainPin.addEventListener(`mousedown`, onMouseDown);
+
+const onMouseUp = (evt) => {
   evt.preventDefault();
 
   document.removeEventListener(`mousemove`, onMouseMove);
   document.removeEventListener(`mouseup`, onMouseUp);
 
   if (dragged) {
-    let onClickPreventDefault = (clickEvt) => {
+    const onClickPreventDefault = (clickEvt) => {
       clickEvt.preventDefault();
       mainPin.removeEventListener(`click`, onClickPreventDefault);
     };
@@ -47,7 +55,7 @@ let onMouseUp = (evt) => {
   }
 };
 
-let onMouseMove = (evt) => {
+const onMouseMove = (evt) => {
   dragged = true;
 
   let shift = {
@@ -62,10 +70,10 @@ let onMouseMove = (evt) => {
 
   let offsetX = mainPin.offsetLeft - shift.x;
 
-  if (offsetX < (-mainPinWidth / 2)) {
-    offsetX = -mainPinWidth / 2;
-  } else if (offsetX > (map.offsetWidth - mainPinWidth / 2)) {
-    offsetX = map.offsetWidth - mainPinWidth / 2;
+  if (offsetX < (-WIDTH / 2)) {
+    offsetX = -WIDTH / 2;
+  } else if (offsetX > (map.offsetWidth - WIDTH / 2)) {
+    offsetX = map.offsetWidth - WIDTH / 2;
   }
 
   let offsetY = mainPin.offsetTop - shift.y;
@@ -79,5 +87,5 @@ let onMouseMove = (evt) => {
   mainPin.style.top = offsetY + `px`;
   mainPin.style.left = offsetX + `px`;
 
-  window.form.setAddressValue(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight);
+  window.form.setAddressValue(mainPin.offsetLeft + WIDTH / 2, mainPin.offsetTop + HEIGHT);
 };

@@ -33,7 +33,7 @@ function clearPins() {
       element.remove();
     }
   });
-};
+}
 
 function renderPins() {
   clearPins();
@@ -56,19 +56,12 @@ function renderPins() {
 
 let successHandler = (offers) => {
   window.data = {
-    offers: offers
+    offers,
   };
 
   if (window.data.offers.length) {
     mapFilters.forEach((item) => (item.disabled = false));
   }
-  renderPins();
-};
-
-let errorHandler = (offers) => {
-  window.data = {
-    offers: offers
-  };
   renderPins();
 };
 

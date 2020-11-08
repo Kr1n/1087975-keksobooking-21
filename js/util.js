@@ -20,5 +20,5 @@ window.util = {
       parent.removeChild(parent.firstChild);
     }
   },
-  debounce: debounce,
+  debounce,
 };

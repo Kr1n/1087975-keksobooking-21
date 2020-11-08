@@ -52,7 +52,7 @@ const createXhrConnection = (xhr, onSuccess, onError) => {
   xhr.timeout = TIMEOUT_IN_MS;
 };
 
-const errorHandler = (errorMessage) => {
+const errorHandler = (message) => {
   let node = document.createElement(`div`);
   node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
   node.style.position = `absolute`;
@@ -61,10 +61,10 @@ const errorHandler = (errorMessage) => {
   node.style.fontSize = `30px`;
   node.classList.add(`error-message`);
 
-  node.textContent = errorMessage;
+  node.textContent = message;
 
   setTimeout(() => {
-    let errorMessage = document.querySelector(".error-message");
+    let errorMessage = document.querySelector(`.error-message`);
     errorMessage.remove();
   }, 5000);
 

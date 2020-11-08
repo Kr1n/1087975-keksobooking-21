@@ -7,7 +7,7 @@ const resetPage = () => {
   window.map.clearPins();
   window.map.setNonActiveState();
   window.mainPin.moveMainPin(DEFAULT_PIN_X, DEFAULT_PIN_Y);
-}
+};
 
 window.page = {
   resetPage,

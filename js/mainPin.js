@@ -21,7 +21,7 @@ const moveMainPin = (x, y) => {
 window.mainPin = {
   width: WIDTH,
   height: HEIGHT,
-  moveMainPin,
+  move,
 };
 
 const onMouseDown = (evt) => {

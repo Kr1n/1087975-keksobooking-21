@@ -1,9 +1,9 @@
 'use strict';
 
-const map = document.querySelector(`.map`);
-
 const PIN_WIDTH = 50;
 const PIN_HEIGHT = 70;
+
+const map = document.querySelector(`.map`);
 
 window.pin = {
   onCardEscPress,

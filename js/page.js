@@ -1,6 +1,6 @@
 'use strict';
 
-const resetPage = () => {
+const reset = () => {
   const DEFAULT_PIN_X = 570;
   const DEFAULT_PIN_Y = 375;
   window.form.reset();
@@ -11,5 +11,5 @@ const resetPage = () => {
 };
 
 window.page = {
-  resetPage,
+  reset,
 };

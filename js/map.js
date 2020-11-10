@@ -1,12 +1,13 @@
 'use strict';
 
+const MAX_RENDERED_PINS = 5;
+
 const mapPinTemplate = document.querySelector(`#pin`);
 const map = document.querySelector(`.map`);
 const formFieldsets = document.querySelectorAll(`.ad-form fieldset`);
 const mapFilters = document.querySelectorAll(`.map__filters > *`);
 const form = document.querySelector(`.ad-form`);
 const mainPin = document.querySelector(`.map__pin--main`);
-const MAX_RENDERED_PINS = 5;
 
 map.classList.remove(`map--faded`);
 

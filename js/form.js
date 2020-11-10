@@ -154,7 +154,7 @@
     message = document.querySelector(`.success`);
     document.addEventListener(`keydown`, onMessageEscPress);
     document.addEventListener(`click`, onClick);
-    window.page.resetPage();
+    window.page.reset();
   };
 
   const submitHandler = (evt) => {
@@ -193,6 +193,6 @@
       element.checked = 0;
     });
   }
-  resetButton.addEventListener(`click`, window.page.resetPage);
+  resetButton.addEventListener(`click`, window.page.reset);
 
 })();

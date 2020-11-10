@@ -1,8 +1,9 @@
 'use strict';
 
+const DEFAULT_PIN_X = 570;
+const DEFAULT_PIN_Y = 375;
+
 const reset = () => {
-  const DEFAULT_PIN_X = 570;
-  const DEFAULT_PIN_Y = 375;
   window.form.reset();
   window.pin.closeCard();
   window.map.clearPins();

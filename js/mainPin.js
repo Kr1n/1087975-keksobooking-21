@@ -12,7 +12,7 @@ const mainPin = document.querySelector(`.map__pin--main`);
 let startCoords = {};
 let dragged = false;
 
-const moveMainPin = (x, y) => {
+const move = (x, y) => {
   mainPin.style.top = ((Number(y)) ? y : mainPin.offsetTop) + `px`;
   mainPin.style.left = ((Number(x)) ? x : mainPin.offsetLeft) + `px`;
   window.form.setAddressValue(mainPin.offsetLeft + WIDTH / 2, mainPin.offsetTop + HEIGHT);
